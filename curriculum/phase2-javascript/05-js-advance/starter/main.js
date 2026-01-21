@@ -2,17 +2,16 @@
 // TODO 2: Import contacts from data.js
 // ============================================
 // Hint: import ______ from './data.js'
-
-
+import contacts from "./data.js";
 
 // ============================================
 // DOM ELEMENTS (done for you)
 // ============================================
-const nameInput = document.getElementById('name-input');
-const emailInput = document.getElementById('email-input');
-const phoneInput = document.getElementById('phone-input');
-const addBtn = document.getElementById('add-btn');
-const contactList = document.getElementById('contact-list');
+const nameInput = document.getElementById("name-input");
+const emailInput = document.getElementById("email-input");
+const phoneInput = document.getElementById("phone-input");
+const addBtn = document.getElementById("add-btn");
+const contactList = document.getElementById("contact-list");
 
 // ============================================
 // STATE
@@ -20,7 +19,6 @@ const contactList = document.getElementById('contact-list');
 // Using spread to copy the imported contacts array
 // (Complete TODO 1 & 2 first for this to work)
 let contactsState = [...contacts];
-
 
 // ============================================
 // YOUR TASKS - Complete the functions below
@@ -41,10 +39,8 @@ let contactsState = [...contacts];
 // Hint: contact.info?.phone || '______'
 
 const displayPhone = (contact) => {
-  // Write your code here
-
+  return contact.info?.phone || "Not available";
 };
-
 
 // ------------------------------------------
 // TODO 4: addContact
@@ -67,10 +63,22 @@ const displayPhone = (contact) => {
 //   5. Call render()
 
 const addContact = () => {
-  // Write your code here
+  let addedContact = {
+    id: generateId(),
+    name: nameInput.value,
+    info: {
+      email: emailInput.value,
+      phone: phoneInput.value,
+    },
+  };
 
+  contactsState = [...contactsState, addedContact];
+  nameInput.value = "";
+  emailInput.value = "";
+  phoneInput.value = "";
+
+  render();
 };
-
 
 // ------------------------------------------
 // TODO 5: deleteContact
@@ -83,10 +91,10 @@ const addContact = () => {
 //   3. Call render()
 
 const deleteContact = (id) => {
-  // Write your code here
-
+  let newContacts = contactsState.filter((c) => c.id !== id);
+  contactsState = [...newContacts];
+  render();
 };
-
 
 // ------------------------------------------
 // TODO 6: getContactById
@@ -97,10 +105,8 @@ const deleteContact = (id) => {
 // Return the found contact
 
 const getContactById = (id) => {
-  // Write your code here
-
+  return contactsState.find((c) => c.id === id);
 };
-
 
 // ============================================
 // HELPER FUNCTIONS (done for you)
@@ -119,11 +125,15 @@ const render = (contactsToRender = contactsState) => {
 
   // Using .map() to transform each contact into HTML
   // .map() loops through and returns a new array
-  contactList.innerHTML = contactsToRender.map(contact => `
+  contactList.innerHTML = contactsToRender
+    .map(
+      (contact) => `
     <div class="bg-white rounded-lg shadow p-4 mb-3 flex justify-between items-center">
       <div>
         <h3 class="font-semibold text-gray-800">${contact.name}</h3>
-        <p class="text-sm text-gray-500">📧 ${contact.info.email}</p>
+        <p class="text-sm text-gray-500">
+
+        ${contact.info.email}</p>
         <p class="text-sm text-gray-500">📱 ${displayPhone(contact)}</p>
       </div>
       <div class="flex gap-2">
@@ -141,33 +151,33 @@ const render = (contactsToRender = contactsState) => {
         </button>
       </div>
     </div>
-  `).join('');
+  `,
+    )
+    .join("");
 };
-
 
 // ============================================
 // EVENT LISTENERS (done for you)
 // ============================================
-addBtn.addEventListener('click', addContact);
+addBtn.addEventListener("click", addContact);
 
-contactList.addEventListener('click', (e) => {
+contactList.addEventListener("click", (e) => {
   const id = Number(e.target.dataset.id);
 
-  if (e.target.classList.contains('delete-btn')) {
+  if (e.target.classList.contains("delete-btn")) {
     deleteContact(id);
   }
 
-  if (e.target.classList.contains('view-btn')) {
+  if (e.target.classList.contains("view-btn")) {
     const contact = getContactById(id);
     if (contact) {
-      console.log('--- Contact Details ---');
-      console.log('Name:', contact.name);
-      console.log('Email:', contact.info.email);
-      console.log('Phone:', displayPhone(contact));
+      console.log("--- Contact Details ---");
+      console.log("Name:", contact.name);
+      console.log("Email:", contact.info.email);
+      console.log("Phone:", displayPhone(contact));
     }
   }
 });
-
 
 // ============================================
 // INITIAL RENDER
