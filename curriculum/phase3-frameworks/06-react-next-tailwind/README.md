@@ -10,7 +10,7 @@
 1. [🔍 Topic Overview](#-topic-overview)
 2. [📦 Project Setup](#-project-setup)
 3. [📄 Code Walkthrough](#-code-walkthrough)
-4. [🧪 Exercises](#-exercises)
+4. [🧪 Hands On Challenge](#-hands-on-challenge)
 5. [📝 Resources](#-resources)
 6. [🙌 Contributors](#-contributors)
 
@@ -20,13 +20,10 @@
 
 **Problems with Traditional Web Dev (html,css,javascript):**
 - No code reusability (copy-paste navbar across 10 files)
-- Manual DOM manipulation (tedious and error-prone)
 - Poor scalability (simple features = massive code)
 
 **React Solves This With:**
 - **Components** - Reusable UI pieces (build once, use everywhere)
-- **Virtual DOM** - Automatic, efficient UI updates
-- **Declarative** - Describe what you want, React handles how
 
 **Library vs Framework:**
 - **React (Library)** - You control the structure
@@ -36,7 +33,7 @@
 - File-based routing (`app/about/page.js` → `/about`)
 - Built-in optimization (images, code splitting)
 - Server & Client components
-- Production-ready out of the box
+- Production-ready out of the box optimisations
 
 
 ## 📦 Project Setup
@@ -111,256 +108,225 @@ my-blog-site/
 - `app/blog/page.js` → `/blog`
 
 
-### 2. Creating Reusable Navbar Component
+### 2. Verify Tailwind is working
 
-First create a folder called  `/components` & a file  `Navbar.js`.
-
-**File:** `src/components/Navbar.js`
+Remove Boiler plate from `page.js` and replace with :
 ```jsx
-import Link from 'next/link'
-
-export default function Navbar() {
-    return (
-        <nav className="bg-blue-600 text-white p-4">
-            <div className="container mx-auto flex justify-between items-center">
-                <div className="text-2xl font-bold">
-                    MyBlog
-                </div>
-                <div className="flex gap-6">
-                    <Link href="/" className="hover:text-blue-200 transition">
-                        Home
-                    </Link>
-                    <Link href="/about" className="hover:text-blue-200 transition">
-                        About
-                    </Link>
-                    <Link href="/blog" className="hover:text-blue-200 transition">
-                        Blog
-                    </Link>
-                </div>
-            </div>
-        </nav>
-    )
-}
-```
-
-### 2.1 Use Navbar in Layout
-
-**File:** `src/app/layout.js`
-```jsx
-import './globals.css'
-import Navbar from '@/components/Navbar'
-
-export const metadata = {
-  title: 'My Blog',
-  description: 'A simple blog built with Next.js',
-}
-
-export default function RootLayout({ children }) {
+export default function Home() {
   return (
-    <html lang="en">
-      <body>
-        <Navbar />
-        <main className="container mx-auto px-4 py-8">
-          {children}
-        </main>
-      </body>
-    </html>
-  )
+    <div className="bg-blue-200 text-black p-8 text-center">
+      <h1 className="text-4xl font-bold">
+        Hello nextjs + tailwind</h1>
+    </div>
+  );
 }
+
 ```
 
-### 3. Create About & Blog Pages
+
+### 3. Create About & Profile Pages
 
 3.1 Create an **About** page. Create `about` folder and a  `page.js` file.
 
 **File:** `src/app/about/page.js`
 ```jsx
-export default function AboutPage() {
+export default function About() {
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6">About MyBlog</h1>
-      <p className="mb-4">
-        Welcome to MyBlog! This is a simple blog built with Next.js 
-        to demonstrate modern web development.
-      </p>
+    <div className="bg-blue-200 text-black p-8 text-center">
+      <h1 className="text-4xl font-bold">
+        About page!</h1>
     </div>
-  )
+  );
+}
+```
+> You should see your about page at localhost:3000/about
+
+3.2 Create a **profile** page. Create `profile` folder and a  `page.js` file.
+
+**File:** `src/app/profile/page.js`
+
+```jsx
+export default function Profile() {
+  return (
+    <div className="bg-blue-200 text-black p-8 text-center">
+      <h1 className="text-4xl font-bold">
+        profile page!</h1>
+    </div>
+  );
+}
+```
+> You should see your about page at localhost:3000/profile
+
+### 4. Components
+4.1 Regular components
+
+```jsx
+export default function Button() {
+    return (
+        <>
+            {/* <button className="bg-blue-500 text-white p-2 rounded-md m-16">
+                <p>Accept</p>
+            </button> */}
+        </>
+    )
 }
 ```
 
-
-> You should see your about page with some content.
-
-
-3.2 Create a **Blog** page. Create `blog` folder and a  `page.js` file.
-
-**File:** `src/app/blog/page.js`
+4.2 Dynamic Components
 
 ```jsx
-export default function Blog() {
-  const posts = [
-    { id: 1, title: "Getting Started with React", date: "Dec 1, 2024" },
-    { id: 2, title: "Why Next.js is Awesome", date: "Dec 3, 2024" },
-    { id: 3, title: "Tailwind CSS Tips", date: "Dec 5, 2024" }
-  ]
-
-  return (
-    <div>
-      <h1 className="text-4xl font-bold mb-8">Blog Posts</h1>
-      <div className="space-y-6">
-        {posts.map(post => (
-          <article key={post.id} className="border-b pb-6">
-            <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
-            <p className="text-gray-500 text-sm">{post.date}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  )
+export default function Button({ text }) {
+    return (
+        <>
+            {/* <button className="bg-blue-500 text-white p-2 rounded-md m-16">
+                <p>{text}</p>
+            </button> */}
+        </>
+    )
 }
 ```
+4.3 Link Component
 
-### 4. Container / Section Components (Optional)
-
-These are larger components that group smaller components into sections.
-
-Examples:
-
-- `HeroSection.js`
-- `FeaturesSection.js`
-- `TestimonialsSection.js`
-
-They help organize large designs into understandable units.
-
-4.1 Create a **FeatureSection**. Create `FeaturesSection.js` file in your `/components` file.
-
-**File:** `src/components/FeaturesSection.js`
 ```jsx
+import Link from "next/Link" 
 
-export default function FeaturesSection() {
-  const features = [
-    {
-      id: 1,
-      title: "Fast Performance",
-      description: "Built with Next.js for lightning-fast page loads and smooth navigation.",
-      icon: "⚡"
-    },
-    {
-      id: 2,
-      title: "Easy to Use",
-      description: "Simple, intuitive design that makes reading and writing enjoyable.",
-      icon: "✨"
-    },
-    {
-      id: 3,
-      title: "Responsive Design",
-      description: "Looks great on any device - desktop, tablet, or mobile.",
-      icon: "📱"
-    }
-  ]
+<Link href="/about" className="hover:text-blue-400 transition-colors">
+  About
+</Link>
+```
 
-  return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Why Choose MyBlog?</h2>
-          <p className="text-gray-600 text-lg">
-            Everything you need for a modern blogging experience
-          </p>
-        </div>
+4.4 Layout Component:
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {features.map(feature => (
-            <div key={feature.id} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
-              <div className="text-5xl mb-4">{feature.icon}</div>
-              <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
+Creating your first `navbar` component.
+
+```jsx
+import Link from "next/link";
+
+export default function Navbar() {
+    return (
+        <nav className="bg-gray-800 text-white shadow-lg">
+            <div className="container mx-auto px-4 py-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-8">
+                        <Link href="/" className="text-xl font-bold hover:text-blue-400 transition-colors">
+                            Home
+                        </Link>
+                        <Link href="/about" className="hover:text-blue-400 transition-colors">
+                            About
+                        </Link>
+                        <Link href="/profile" className="hover:text-blue-400 transition-colors">
+                            Profile
+                        </Link>
+                    </div>
+                </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-```
-
-Add it to any page you want!
-
-In this example we will add in in the `about` page.
-
-**Navigate to:** `src/app/about/page.js`
-
-Add this at the top of the file:
-```jsx
-import FeaturesSection from '@/components/FeaturesSection'
-```
-
-Add  the **FeaturesSection!** just like how we added **Navbar** into layout.js
-
-```jsx
-export default function AboutPage() {
-  return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6">About MyBlog</h1>
-      <p className="mb-4">
-        Welcome to MyBlog! This is a simple blog built with Next.js 
-        to demonstrate modern web development.
-      </p>
-
-    {/* ADD THIS HERE Features Section - Same component, different page! */}
-     <FeaturesSection />
-  
-    </div>
-  )
+        </nav>
+    );
 }
 ```
+4.5 Image Component
 
-## 🧪 Exercises
-
-### 🔧 Exercise 1: Build Footer Component
-1. Create `src/components/Footer.js`
-2. Add copyright text with dark background
-3. Import in `layout.js`
-4. ✅ Success: Footer appears on all pages
-
-### ⚔️ Exercise 2: Complete Blog Site (25 min)
-
-**Requirements:**
-1. **Contact Page** - Create `src/app/contact/page.js` with form
-2. **Homepage Hero** - Add gradient hero section with title
-3. **Blog Cards** - Grid of 3 featured post cards
-4. **Navbar Update** - Add "Contact" link
-
-**Starter Contact Form:**
 ```jsx
-export default function Contact() {
-  return (
-    <div className="max-w-2xl mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
-      <form className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">Name</label>
-          <input type="text" className="w-full px-3 py-2 border rounded-md" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">Email</label>
-          <input type="email" className="w-full px-3 py-2 border rounded-md" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">Message</label>
-          <textarea rows="4" className="w-full px-3 py-2 border rounded-md" />
-        </div>
-        <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700">
-          Send Message
-        </button>
-      </form>
-    </div>
-  )
+<Image
+  src="/ImageExample.jpg" 
+  alt="A chill guy" 
+  width={500}
+  height={500}
+  className="w-full h-64 object-cover rounded-md"
+/>
+```
+
+4.6 Section Component
+Create your FAQ Component
+```jsx
+export default function FAQ() {
+    return (
+        <section className="py-16 px-4 bg-gray-50">
+            <div className="container mx-auto max-w-4xl">
+                <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+                    Frequently Asked Questions
+                </h2>
+                <div className="space-y-8">
+                    <div className="bg-white rounded-lg shadow-md p-6">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                            What is this website about?
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">
+                            about me and my website
+                        </p>
+                    </div>
+                    <div className="bg-white rounded-lg shadow-md p-6">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                            How do I navigate between pages?
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">
+                            uhh click the top buttons i guess
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 }
 ```
+4.7 Custom Styling
+
+```css
+@import "tailwindcss";
+
+
+/* Import Font */
+/* @font-face {
+  font-family: Lobster;
+  src: url("/font/Lobster_Two/LobsterTwo-Regular.ttf");
+} */
+
+/* Root styles */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme {
+  /* Breakpoints */
+  /* --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px; */
+
+  /* Color variables */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* --color-brand-primary: #ae6060; */
+
+  /* Font variables */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* --font-lobster: Lobster, sans-serif; */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* h1, h2, h3, h4, h5, h6, p {
+  font-family: var(--font-lobster);
+  color: var(--color-brand-primary);
+} */
+
+```
+
+## 🧪 Hands On Challenge
+
+### 🔧 Enhancing your current website!
+1. Make a new contact page (`src/app/contact/page.js`)
+2. Update the Navbar to include contact page
+3. Make a section for CTA (Call to action)
+4. Add a footer and update the layout
+
+
 
 
 ## 🙌 Contributors
@@ -369,6 +335,5 @@ export default function Contact() {
 | ------------ | ------------------- | -------------------------------------------------- |
 | Yan Mei | Speaker  | [@yxnmei](https://github.com/yxnmei) |
 | Vanness Yang | Speaker | [@vanness1900](https://github.com/vanness1900) |
-| Desmond | Reviewer 1| [@desraymondz](https://github.com/desraymondz) |
-| Yan Mei | Reviewer 2 | [@yxnmei](https://github.com/yxnmei) |
+
 
